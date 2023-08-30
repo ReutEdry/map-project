@@ -1,18 +1,19 @@
-import { utilService } from './util.js'
+import { storageService } from './asyncStorage.service.js'
 
 
 export const locService = {
     getLocs,
-    addLocation
+    addLocation,
+    deleteLocation
+
 }
 
 const LOCATION_KEY = 'locationsDB'
-
-var gLocs = utilService.load(LOCATION_KEY) || []
 // { name: 'Greatplace', lat: 32.047104, lng: 34.832384 },
 // { name: 'Neveragain', lat: 32.047201, lng: 34.832581 }
 
 function getLocs() {
+    const gLocs = storageService.query(LOCATION_KEY) || []
 
     return new Promise((resolve, reject) => {
         setTimeout(() => {
@@ -23,15 +24,17 @@ function getLocs() {
 
 function addLocation(name, lat, lng) {
     let newLoc = {
-        id: utilService.id(),
+        id: storageService.makeId(),
         name,
         lat,
         lng,
         createdAt: Date.now(),
         updateAt: '15:40'
     }
-    gLocs.push(newLoc)
-    console.log(gLocs)
-    utilService.save(LOCATION_KEY, gLocs)
+    storageService.post(LOCATION_KEY, newLoc)
+}
+
+function deleteLocation(id) {
+    storageService.remove(LOCATION_KEY, id)
 }
 

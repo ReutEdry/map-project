@@ -30,7 +30,10 @@ function onAddMarker() {
 
 function onGetLocs() {
     locService.getLocs()
-        .then(locs => renderLocations(locs))
+        .then(locs => {
+            console.log('locs', locs)
+            renderLocations(locs)
+        })
 }
 
 function renderLocations(locations) {
@@ -76,13 +79,16 @@ function onClickMap(map) {
         const lat = ev.latLng.lat()
         const lng = ev.latLng.lng()
         locService.addLocation(name, lat, lng)
+        locService.getLocs()
+            .then(onGetLocs)
     })
-
 }
 
 function onDeleteLoc(id) {
-    console.log(id)
+    locService.deleteLocation(id)
 
+    locService.getLocs()
+        .then(onGetLocs)
 }
 
 function goToMyLocation() {
