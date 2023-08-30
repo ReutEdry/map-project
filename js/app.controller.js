@@ -9,9 +9,7 @@ window.onGetUserPos = onGetUserPos
 
 function onInit() {
     mapService.initMap()
-        .then(() => {
-            console.log('Map is ready')
-        })
+        .then(map => onClickMap(map))
         .catch(() => console.log('Error: cannot init map'))
 }
 
@@ -30,10 +28,22 @@ function onAddMarker() {
 
 function onGetLocs() {
     locService.getLocs()
-        .then(locs => {
-            console.log('Locations:', locs)
-            document.querySelector('.locs').innerText = JSON.stringify(locs, null, 2)
-        })
+        .then(locs => renderLocations(locs))
+    // document.querySelector('.locs').innerText = JSON.stringify(locs, null, 2)
+}
+
+function renderLocations(locations) {
+    const strHtmls = locations.map(location => {
+        return `<tr>
+        <td>${location.id}</td>
+        <td>${location.name}</td>
+        <td>${location.lat}</td>
+        <td>${location.lng}</td>
+        <td>${location.createdAt}</td>
+        <td>${location.updateAt}</td>
+        </tr>`
+    })
+    document.querySelector('.locs').innerHTML = strHtmls.join('')
 }
 
 function onGetUserPos() {
@@ -47,7 +57,18 @@ function onGetUserPos() {
             console.log('err!!!', err)
         })
 }
+
 function onPanTo() {
     console.log('Panning the Map')
     mapService.panTo(35.6895, 139.6917)
+}
+
+function onClickMap(map) {
+    map.addListener('click', ev => {
+        const name = 'reut'
+        const lat = ev.latLng.lat()
+        const lng = ev.latLng.lng()
+        locService.addLocation(name, lat, lng)
+    })
+
 }
