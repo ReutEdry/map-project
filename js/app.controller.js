@@ -29,7 +29,6 @@ function onAddMarker() {
 function onGetLocs() {
     locService.getLocs()
         .then(locs => renderLocations(locs))
-    // document.querySelector('.locs').innerText = JSON.stringify(locs, null, 2)
 }
 
 function renderLocations(locations) {
