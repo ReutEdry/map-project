@@ -5,7 +5,6 @@ export const locService = {
     getLocs,
     addLocation,
     deleteLocation,
-
 }
 
 const LOCATION_KEY = 'locationsDB'

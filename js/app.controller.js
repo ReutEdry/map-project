@@ -9,11 +9,16 @@ window.onGetUserPos = onGetUserPos
 window.onDeleteLoc = onDeleteLoc
 window.goToMyLocation = goToMyLocation
 window.onSearchLoc = onSearchLoc
+window.onCopyLink = onCopyLink
+window.setQueryParam = setQueryParam
+window.renderQueryParams = renderQueryParams
 
 function onInit() {
     mapService.initMap()
         .then(map => onClickMap(map))
         .catch(() => console.log('Error: cannot init map'))
+    renderQueryParams()
+
 }
 
 // This function provides a Promise API to the callback-based-api of getCurrentPosition
@@ -39,17 +44,18 @@ function onGetLocs() {
 
 function renderLocations(locations) {
     const strHtmls = locations.map(location => {
+        const { id, name, lat, lng, createdAt, updateAt } = location
         return `<tr>
-        <td>${location.id}</td>
-        <td>${location.name}</td>
-        <td>${location.lat}</td>
-        <td>${location.lng}</td>
-        <td>${location.createdAt}</td>
-        <td>${location.updateAt}</td>
+        <td>${id}</td>
+        <td>${name}</td>
+        <td>${lat}</td>
+        <td>${lng}</td>
+        <td>${createdAt}</td>
+        <td>${updateAt}</td>
         <td>
         <section>
-            <button onclick="onDeleteLoc('${location.id}')">X</button>
-            <button onclick="onPanTo(${location.lat}, ${location.lng})">Go</button>
+            <button onclick="onDeleteLoc('${id}')">X</button>
+            <button onclick="onPanTo(${lat}, ${lng})">Go</button>
         </section>
     </td>
         </tr>`
@@ -70,8 +76,10 @@ function onGetUserPos() {
 }
 
 function onPanTo(lat, lng) {
-    console.log(lat, lng)
+    // setQueryParam(lat, lng)
     mapService.panTo(lat, lng)
+    console.log('lat', lat)
+    console.log('lng', lng)
 }
 
 function onClickMap(map) {
@@ -82,6 +90,8 @@ function onClickMap(map) {
         locService.addLocation(name, lat, lng)
         locService.getLocs()
             .then(onGetLocs)
+        setQueryParam(lat, lng)
+
     })
 }
 
@@ -99,9 +109,44 @@ function goToMyLocation() {
             lng: pos.coords.longitude
         }
         mapService.panTo(position.lat, position.lng)
+        // setQueryParam(position.lat, position.lng)
+
     })
 }
 
 function onSearchLoc(inputVal) {
     mapService.searchLoc(inputVal)
+}
+
+function setQueryParam(lat, lng) {
+    const querryParams = `?lat=${lat}&lng=${lng}`
+    const newUrl = window.location.protocol + '//' + window.location.host + window.location.pathname + querryParams
+    window.history.pushState({ path: newUrl }, '', newUrl)
+}
+
+function renderQueryParams() {
+    const querryParams = new URLSearchParams(window.location.search)
+    const location = {
+        lat: querryParams.get('lat') || 0,
+        lng: querryParams.get('lng') || 0
+    }
+
+    if (!location.lat && !location.lng) return
+
+    mapService.initMap(+location.lat, +location.lng)
+}
+
+function onCopyLink() {
+
+    const querryParams = new URLSearchParams(window.location.search)
+    const location = {
+        lat: querryParams.get('lat') || 0,
+        lng: querryParams.get('lng') || 0
+    }
+    const gitUrl = `https://reutedry.github.io/map-project/index.html?lat=${location.lat}&lng=${location.lng}`
+
+
+    console.log(navigator.clipboard)
+    navigator.clipboard
+        .writeText(gitUrl)
 }

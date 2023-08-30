@@ -35,7 +35,9 @@ function addMarker(loc) {
 }
 
 function panTo(lat, lng) {
+    console.log(lat, lng)
     var laLatLng = new google.maps.LatLng(lat, lng)
+    console.log(laLatLng)
     gMap.panTo(laLatLng)
 }
 
@@ -60,10 +62,10 @@ function searchLoc(valInput) {
     geocoder.geocode({ 'address': valInput }, function (results, status) {
         if (status == 'OK') {
             gMap.setCenter(results[0].geometry.location);
-            // var marker = new google.maps.Marker({
-            //     map: gMap,
-            //     position: results[0].geometry.location
-            // })
+            var marker = new google.maps.Marker({
+                map: gMap,
+                position: results[0].geometry.location
+            })
         } else {
             alert('Geocode was not successful for the following reason: ' + status);
         }
