@@ -4,7 +4,7 @@ import { storageService } from './asyncStorage.service.js'
 export const locService = {
     getLocs,
     addLocation,
-    deleteLocation
+    deleteLocation,
 
 }
 
@@ -37,4 +37,5 @@ function addLocation(name, lat, lng) {
 function deleteLocation(id) {
     storageService.remove(LOCATION_KEY, id)
 }
+
 

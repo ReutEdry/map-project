@@ -8,6 +8,7 @@ window.onGetLocs = onGetLocs
 window.onGetUserPos = onGetUserPos
 window.onDeleteLoc = onDeleteLoc
 window.goToMyLocation = goToMyLocation
+window.onSearchLoc = onSearchLoc
 
 function onInit() {
     mapService.initMap()
@@ -92,11 +93,15 @@ function onDeleteLoc(id) {
 }
 
 function goToMyLocation() {
-    var laLatLng = navigator.geolocation.getCurrentPosition(pos => {
+    navigator.geolocation.getCurrentPosition(pos => {
         const position = {
             lat: pos.coords.latitude,
             lng: pos.coords.longitude
         }
-        console.log('position:', position)
+        mapService.panTo(position.lat, position.lng)
     })
+}
+
+function onSearchLoc(inputVal) {
+    mapService.searchLoc(inputVal)
 }

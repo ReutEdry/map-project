@@ -3,6 +3,7 @@ export const mapService = {
     initMap,
     addMarker,
     panTo,
+    searchLoc
 }
 
 
@@ -38,7 +39,6 @@ function panTo(lat, lng) {
     gMap.panTo(laLatLng)
 }
 
-
 function _connectGoogleApi() {
     if (window.google) return Promise.resolve()
 
@@ -53,4 +53,21 @@ function _connectGoogleApi() {
         elGoogleApi.onerror = () => reject('Google script failed to load')
     })
 }
+
+function searchLoc(valInput) {
+    const geocoder = new google.maps.Geocoder();
+
+    geocoder.geocode({ 'address': valInput }, function (results, status) {
+        if (status == 'OK') {
+            gMap.setCenter(results[0].geometry.location);
+            // var marker = new google.maps.Marker({
+            //     map: gMap,
+            //     position: results[0].geometry.location
+            // })
+        } else {
+            alert('Geocode was not successful for the following reason: ' + status);
+        }
+    });
+}
+
 
