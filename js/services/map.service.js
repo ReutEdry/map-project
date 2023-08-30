@@ -34,16 +34,9 @@ function addMarker(loc) {
 }
 
 function panTo(lat, lng) {
-    // var laLatLng = new google.maps.LatLng(lat, lng)
-    // gMap.panTo(laLatLng)
-    var laLatLng = navigator.geolocation.getCurrentPosition(pos =>  {
-       const position = {
-           lat: pos.coords.latitude,
-           lng: pos.coords.longitude
-        }
-        console.log('position:', position)
-    })
-    gMap.panTo(position.lat, position.lng)
+    var laLatLng = new google.maps.LatLng(lat, lng)
+    gMap.panTo(laLatLng)
+
 }
 
 

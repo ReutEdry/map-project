@@ -6,6 +6,8 @@ window.onAddMarker = onAddMarker
 window.onPanTo = onPanTo
 window.onGetLocs = onGetLocs
 window.onGetUserPos = onGetUserPos
+window.onDeleteLoc = onDeleteLoc
+window.goToMyLocation = goToMyLocation
 
 function onInit() {
     mapService.initMap()
@@ -40,6 +42,12 @@ function renderLocations(locations) {
         <td>${location.lng}</td>
         <td>${location.createdAt}</td>
         <td>${location.updateAt}</td>
+        <td>
+        <section>
+            <button onclick="onDeleteLoc('${location.id}')">X</button>
+            <button onclick="onPanTo(${location.lat}, ${location.lng})">Go</button>
+        </section>
+    </td>
         </tr>`
     })
     document.querySelector('.locs').innerHTML = strHtmls.join('')
@@ -57,9 +65,9 @@ function onGetUserPos() {
         })
 }
 
-function onPanTo() {
-    console.log('Panning the Map')
-    mapService.panTo(35.6895, 139.6917)
+function onPanTo(lat, lng) {
+    console.log(lat, lng)
+    mapService.panTo(lat, lng)
 }
 
 function onClickMap(map) {
@@ -70,4 +78,19 @@ function onClickMap(map) {
         locService.addLocation(name, lat, lng)
     })
 
+}
+
+function onDeleteLoc(id) {
+    console.log(id)
+
+}
+
+function goToMyLocation() {
+    var laLatLng = navigator.geolocation.getCurrentPosition(pos => {
+        const position = {
+            lat: pos.coords.latitude,
+            lng: pos.coords.longitude
+        }
+        console.log('position:', position)
+    })
 }
