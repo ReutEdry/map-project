@@ -35,6 +35,7 @@ function onAddMarker() {
 }
 
 function onGetLocs() {
+    document.querySelector('.table-layout').hidden = false
     locService.getLocs()
         .then(locs => {
             console.log('locs', locs)

@@ -4,40 +4,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/style.css">
     <title>TravelTip</title>
 </head>
 
 <body>
-    <h1>TravelTip Starter</h1>
-    <div id="map" style="width: 100%; height: 400px;"></div>
-    <button onclick="onAddMarker()" class="btn-add-marker">Add Marker Speific Location</button>
-    <button onclick="onGetUserPos()" class="btn-user-pos">Get User Position</button>
-    <button onclick="onGetLocs()" class="btn-get-locs">Get Locations</button>
-    <button onclick="onPanTo()" class="btn-pan">Pan to</button>
-    <button onclick="goToMyLocation()" class="btn-myLoc">My-location</button>
-    <input type="search" onchange="onSearchLoc(this.value)">
-    <button onclick="onCopyLink()">Copy link</button>
-    <p>You are at: <span class="user-pos"></span></p>
-
-    <p>Locations:
-    <table>
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Lat</th>
-                <th>Lng</th>
-                <th>CreatedAt</th>
-                <th>UpdateAt</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody class="locs">
-            <tr>
-            </tr>
-        </tbody>
-        </p>
-
+    <section class="main-layout">
+        <section class="top-area">
+            <h1>TravelTip Starter</h1>    
+            <div id="map" style="width: 100%; height: 400px;"></div>
+        </section>
+        <section class="btns-layout">
+            <input type="search" onchange="onSearchLoc(this.value)">
+            <button onclick="onAddMarker()" class="btn-add-marker">Add Marker Speific Location</button>
+            <button onclick="onGetUserPos()" class="btn-user-pos">Get User Position</button>
+            <button onclick="onGetLocs()" class="btn-get-locs">Get Locations</button>
+            <!-- <button onclick="onPanTo()" class="btn-pan">Pan to</button> -->
+            <button onclick="goToMyLocation()" class="btn-myLoc">My-location</button>   
+            <button onclick="onCopyLink()">Copy link</button>
+        </section>
+        <p>You are at: <span class="user-pos"></span></p>
+        <section class="table-layout" hidden>
+            <span>Locations:</span>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Lat</th>
+                        <th>Lng</th>
+                        <th>CreatedAt</th>
+                        <th>UpdateAt</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody class="locs">
+                    <tr>
+                    </tr>
+                </tbody>
+            </section>    
+        </section>
         <script src="lib/axios.js"></script>
         <script type="module" src="js/app.controller.js"></script>
 </body>
